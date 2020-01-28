@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Container, ProductTable, Total } from "./styles";
 import {
   MdRemoveCircleOutline,
@@ -6,7 +7,7 @@ import {
   MdDelete
 } from "react-icons/md";
 
-export default function Cart() {
+function Cart({ cart }) {
   return (
     <Container>
       <ProductTable>
@@ -20,29 +21,27 @@ export default function Cart() {
           </tr>
         </thead>
         <tbody>
-          <tr>
+          { cart.map(product => (  
+            <tr>
             <td>
               <img
-                src="
-
-https://www.andaraki.com.br/1683-large_default/tenisskidgripcr00080004allstarpretopreto.jpg"
-                alt="Tênis"
+                src={product.image}
+                alt={product.title}
               ></img>
             </td>
             <td>
-              Tênis
-              <span>R$129,99</span>
+              <strong>{product.title}</strong>
+              <span>{product.priceFormatted}</span>
             </td>
             <td>
               <div>
-                {" "}
                 <button type="button">
                   <MdRemoveCircleOutline
                     size={20}
                     color="#7159c1"
                   ></MdRemoveCircleOutline>
                 </button>
-                <input type="number" readOnly value={2}></input>
+                <input type="number" readOnly value={product.amount}></input>
                 <button type="button">
                   <MdAddCircleOutline
                     size={20}
@@ -60,6 +59,7 @@ https://www.andaraki.com.br/1683-large_default/tenisskidgripcr00080004allstarpre
               </button>
             </td>
           </tr>
+          )) }
         </tbody>
       </ProductTable>
       <footer>
@@ -72,3 +72,9 @@ https://www.andaraki.com.br/1683-large_default/tenisskidgripcr00080004allstarpre
     </Container>
   );
 }
+
+const mapStateToProps = state => ({
+  cart: state.cart
+});
+
+export default connect(mapStateToProps)(Cart);

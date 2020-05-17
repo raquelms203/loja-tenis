@@ -37,7 +37,7 @@ class Home extends Component {
         {products.map(item => (
           <li key={item.id}>
             <img src={item.image} alt={item.title}></img>
-            <strong>Tênis muito legal</strong>
+            <strong>{item.title}</strong>
             <span>{item.priceFormated}</span>
             <button type="button" onClick={() => this.handleAddProduct(item)}>
               <div>

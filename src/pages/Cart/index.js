@@ -1,22 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
+import { CircularProgress, Grid } from "@material-ui/core";
 import { Container, ProductTable, Total } from "./styles";
 import {
   MdRemoveCircleOutline,
   MdAddCircleOutline,
-  MdDelete
+  MdDelete,
 } from "react-icons/md";
 import * as CartAction from "../../store/modules/cart/actions";
 import { bindActionCreators } from "redux";
 import { formatPrice } from "../../util/format";
+import { useHistory } from "react-router-dom";
+
 
 function Cart({ cart, removeFromCart, updateAmount, total }) {
+  
+  const [loading, setLoading] = useState(false);
+  const history = useHistory();
+
   function increment(product) {
     updateAmount(product.id, product.amount + 1);
   }
 
   function decrement(product) {
     updateAmount(product.id, product.amount - 1);
+  }
+
+  function resetCart() {
+    setLoading(true);
+    setTimeout(function () {
+      cart.forEach(function (item) {
+        removeFromCart(item.id);
+      });
+      setLoading(false);
+      history.push("/");
+    }, 3000);
   }
 
   return (
@@ -32,7 +50,7 @@ function Cart({ cart, removeFromCart, updateAmount, total }) {
           </tr>
         </thead>
         <tbody>
-          {cart.map(product => (
+          {cart.map((product) => (
             <tr key={product.id}>
               <td>
                 <img src={product.image} alt={product.title}></img>
@@ -74,7 +92,13 @@ function Cart({ cart, removeFromCart, updateAmount, total }) {
         </tbody>
       </ProductTable>
       <footer>
-        <button type="button">Finalizar pedido</button>
+        {loading ? (
+         <Grid container justify="center"> <CircularProgress /></Grid>
+        ) : (
+          <button type="button" onClick={resetCart}>
+            Finalizar pedido
+          </button>
+        )}
         <Total>
           <span>TOTAL</span>
           <strong>{total}</strong>
@@ -84,16 +108,19 @@ function Cart({ cart, removeFromCart, updateAmount, total }) {
   );
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators(CartAction, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(CartAction, dispatch);
 
-const mapStateToProps = state => ({
-  cart: state.cart.map(product => ({
+const mapStateToProps = (state) => ({
+  cart: state.cart.map((product) => ({
     ...product,
-    subtotal: formatPrice(product.price * product.amount)
+    subtotal: formatPrice(product.price * product.amount),
   })),
-  total: formatPrice(state.cart.reduce((total, product) => {
-    return total + product.price * product.amount;
-  }, 0)),
+  total: formatPrice(
+    state.cart.reduce((total, product) => {
+      return total + product.price * product.amount;
+    }, 0)
+  ),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);

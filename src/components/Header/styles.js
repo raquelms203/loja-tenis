@@ -23,8 +23,8 @@ export const Cart = styled(Link)`
     margin-right: 10px;
 
     strong {
-      display: block;
       color: #fff;
+      margin-right: 8px;
     }
 
     span {

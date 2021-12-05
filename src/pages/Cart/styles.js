@@ -30,7 +30,7 @@ export const Container = styled.div`
 `;
 
 export const ProductTable = styled.table`
-  width: 100px;
+  width: 100%;
 
   thead th {
     color: #999;
@@ -90,4 +90,10 @@ export const Total = styled.div`
     font-size: 20px;
     margin-left: 5px;
   }
+`;
+
+export const Subtotal = styled.th`
+  color: #999;
+  text-align: right;
+  padding: 12px;
 `;

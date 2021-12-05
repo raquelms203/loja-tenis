@@ -11,17 +11,19 @@ function Header({ cartSize }) {
       <Link to="/">
         <img src={logo} alt="logo"></img>
       </Link>
-      <Cart to="/cart">
-        <div>
-          <strong>Meu carrinho</strong>
-          <span>{cartSize} itens</span>
-        </div>
-      </Cart>
-      <MdShoppingBasket size={36} color="#FFF" />
+      <div>
+        <Cart to="/cart">
+          <div>
+            <strong>Meu carrinho</strong>
+            <span>{cartSize} itens</span>
+          </div>
+          <MdShoppingBasket size={36} color="#FFF" />
+        </Cart>
+      </div>
     </Container>
   );
 }
 
-export default connect(state => ({  
-  cartSize: state.cart.length
+export default connect((state) => ({
+  cartSize: state.cart.length,
 }))(Header);

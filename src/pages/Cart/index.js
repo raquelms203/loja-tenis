@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { CircularProgress, Grid } from "@material-ui/core";
-import { Container, ProductTable, Total } from "./styles";
+import { Container, ProductTable, Total, Subtotal } from "./styles";
 import {
   MdRemoveCircleOutline,
   MdAddCircleOutline,
@@ -12,9 +12,7 @@ import { bindActionCreators } from "redux";
 import { formatPrice } from "../../util/format";
 import { useHistory } from "react-router-dom";
 
-
 function Cart({ cart, removeFromCart, updateAmount, total }) {
-  
   const [loading, setLoading] = useState(false);
   const history = useHistory();
 
@@ -76,9 +74,9 @@ function Cart({ cart, removeFromCart, updateAmount, total }) {
                   </button>
                 </div>
               </td>
-              <td>
+              <Subtotal>
                 <strong>{product.subtotal}</strong>
-              </td>
+              </Subtotal>
               <td>
                 <button
                   type="button"
@@ -93,7 +91,10 @@ function Cart({ cart, removeFromCart, updateAmount, total }) {
       </ProductTable>
       <footer>
         {loading ? (
-         <Grid container justify="center"> <CircularProgress /></Grid>
+          <Grid container justify="center">
+            {" "}
+            <CircularProgress />
+          </Grid>
         ) : (
           <button type="button" onClick={resetCart}>
             Finalizar pedido

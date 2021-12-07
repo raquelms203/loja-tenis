@@ -9,32 +9,32 @@ import { bindActionCreators } from "redux";
 
 class Home extends Component {
   state = {
-    products: []
+    products: [],
   };
 
   async componentDidMount() {
     const response = await api.get("products");
 
-    const data = response.data.map(item => ({  
+    const data = response.data.map((item) => ({
       ...item,
-      priceFormated: formatPrice(item.price)
+      priceFormated: formatPrice(item.price),
     }));
 
     this.setState({ products: data });
   }
 
-  handleAddProduct = product => {  
+  handleAddProduct = (product) => {
     const { addToCart } = this.props;
 
     addToCart(product);
-  }
+  };
 
   render() {
     const { amount } = this.props;
     const { products } = this.state;
     return (
       <ProductList>
-        {products.map(item => (
+        {products.map((item) => (
           <li key={item.id}>
             <img src={item.image} alt={item.title}></img>
             <strong>{item.title}</strong>
@@ -42,7 +42,8 @@ class Home extends Component {
             <button type="button" onClick={() => this.handleAddProduct(item)}>
               <div>
                 <MdAddShoppingCart size={16} color="#FFF"></MdAddShoppingCart>
-                {'  '}{amount[item.id] || 0}
+                {"  "}
+                {amount[item.id] || 0}
               </div>
               <span>ADICIONAR AO CARRINHO</span>
             </button>
@@ -53,14 +54,14 @@ class Home extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  amount: state.cart.reduce((amount, product) => {  
+const mapStateToProps = (state) => ({
+  amount: state.cart.reduce((amount, product) => {
     amount[product.id] = product.amount;
     return amount;
-  }, {})
+  }, {}),
 });
 
-  const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(CartAction, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

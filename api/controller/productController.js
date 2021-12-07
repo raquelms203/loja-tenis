@@ -61,6 +61,40 @@ exports.update = function (req, res) {
   });
 };
 
+exports.sale = function (req, res) {
+  let flag = false;
+  Product.findById(req.body.id, function (err, product) {
+    if (err) res.send(err);
+    else {
+      let newAmount = product.amount - req.body.amount;
+      if (newAmount < 0) {
+        res.statusCode = 400;
+        res.send({
+          status: "error",
+          message: `Sem produtos em estoque do ${product.title}`,
+        });
+      } else if (newAmount == 0) {
+        product.delete(function (err) {
+          product.amount = newAmount;
+          if (err) res.json(err);
+          else
+            res.json({
+              status: "Compra realizada com sucesso",
+              message: "Produto removido do estoque",
+            });
+        });
+      } else {
+        product.amount = newAmount;
+        product.save(function (err) {
+          if (err) res.json(err);
+          else
+            res.json({ status: "Compra realizada com sucesso", data: product });
+        });
+      }
+    }
+  });
+};
+
 exports.delete = function (req, res) {
   Product.deleteOne(
     {

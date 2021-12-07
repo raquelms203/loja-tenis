@@ -1,8 +1,11 @@
 # Loja Tênis
 
-Sistema Web em React para e-commerce de uma loja de tênis fictícia.
+Sistema Web em React JS para e-commerce de uma loja de tênis fictícia.
 
-Programa livre para acesso e cópia com finalidade de aprendizado. 
+Back-end feito com Node JS e Express.
 
-Por: raquelms203 
-### raquelmartins203@yahoo.com.br ###
+Programa livre para acesso e cópia com finalidade de aprendizado.
+
+Por: raquelms203
+
+### raquelmartins203@yahoo.com.br

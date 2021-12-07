@@ -15,7 +15,7 @@ class Home extends Component {
   async componentDidMount() {
     const response = await api.get("products");
 
-    const data = response.data.map((item) => ({
+    const data = response.data.data.map((item) => ({
       ...item,
       priceFormated: formatPrice(item.price),
     }));
@@ -34,8 +34,8 @@ class Home extends Component {
     const { products } = this.state;
     return (
       <ProductList>
-        {products.map((item) => (
-          <li key={item.id}>
+        {products.map((item, index) => (
+          <li key={index}>
             <img src={item.image} alt={item.title}></img>
             <strong>{item.title}</strong>
             <span>{item.priceFormated}</span>
@@ -43,7 +43,7 @@ class Home extends Component {
               <div>
                 <MdAddShoppingCart size={16} color="#FFF"></MdAddShoppingCart>
                 {"  "}
-                {amount[item.id] || 0}
+                {amount[item._id] || 0}
               </div>
               <span>ADICIONAR AO CARRINHO</span>
             </button>
@@ -56,7 +56,7 @@ class Home extends Component {
 
 const mapStateToProps = (state) => ({
   amount: state.cart.reduce((amount, product) => {
-    amount[product.id] = product.amount;
+    amount[product._id] = product.amount;
     return amount;
   }, {}),
 });

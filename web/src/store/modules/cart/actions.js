@@ -1,21 +1,21 @@
 export function addToCart(product) {
   return {
     type: "@cart/ADD",
-    product
+    product,
   };
 }
 
-export function removeFromCart(id) {
+export function removeFromCart(_id) {
   return {
     type: "@cart/REMOVE",
-    id: id
+    _id: _id,
   };
 }
 
-export function updateAmount(id, amount) {  
-  return {  
+export function updateAmount(_id, amount) {
+  return {
     type: "@cart/UPDATE_AMOUNT",
-    id,
-    amount
-  }
+    _id: _id,
+    amount,
+  };
 }

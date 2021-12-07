@@ -11,28 +11,42 @@ import * as CartAction from "../../store/modules/cart/actions";
 import { bindActionCreators } from "redux";
 import { formatPrice } from "../../util/format";
 import { useHistory } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import api from "../../services/api";
 
 function Cart({ cart, removeFromCart, updateAmount, total }) {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
 
   function increment(product) {
-    updateAmount(product.id, product.amount + 1);
+    updateAmount(product._id, product.amount + 1);
   }
 
   function decrement(product) {
-    updateAmount(product.id, product.amount - 1);
+    updateAmount(product._id, product.amount - 1);
   }
 
   function resetCart() {
     setLoading(true);
-    setTimeout(function () {
-      cart.forEach(function (item) {
-        removeFromCart(item.id);
-      });
-      setLoading(false);
-      history.push("/");
-    }, 3000);
+    var flag = false;
+
+    cart.forEach(async function (item) {
+      removeFromCart(item._id);
+      try {
+        await api.post("/sale", {
+          id: item._id,
+          amount: item.amount,
+        });
+        setLoading(false);
+        toast.success(`Sucesso ao comprar ${item.title}`);
+        setTimeout(() => {
+          history.push("/");
+        }, 4000);
+      } catch (e) {
+        toast.error(`Ocorreu um erro ao comprar ${item.title}`);
+      }
+    });
   }
 
   return (
@@ -49,7 +63,7 @@ function Cart({ cart, removeFromCart, updateAmount, total }) {
         </thead>
         <tbody>
           {cart.map((product) => (
-            <tr key={product.id}>
+            <tr key={product._id}>
               <td>
                 <img src={product.image} alt={product.title}></img>
               </td>
@@ -80,7 +94,7 @@ function Cart({ cart, removeFromCart, updateAmount, total }) {
               <td>
                 <button
                   type="button"
-                  onClick={() => removeFromCart(product.id)}
+                  onClick={() => removeFromCart(product._id)}
                 >
                   <MdDelete size={20} color="#7159c1"></MdDelete>
                 </button>
@@ -104,6 +118,11 @@ function Cart({ cart, removeFromCart, updateAmount, total }) {
           <span>TOTAL</span>
           <strong>{total}</strong>
         </Total>
+        <ToastContainer
+          position="bottom-right"
+          closeButton={false}
+          theme="colored"
+        />
       </footer>
     </Container>
   );

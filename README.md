@@ -4,6 +4,8 @@ Sistema Web em React e Node para e-commerce de uma loja de tênis fictícia.
 
 Programa livre para acesso e cópia com finalidade de aprendizado.
 
+Link para demonstração no Youtube: https://youtu.be/xtohQERoFQQ
+
 Por: raquelms203
 
 ### raquelmartins203@yahoo.com.br
@@ -12,14 +14,21 @@ Por: raquelms203
 
 Pré-requisitos:
 
-- Possuir o Node instalado no computador, caso não tenha obter em:
+- Possuir o MongoDB instalado no computador, disponível em:
+  https://www.mongodb.com/try/download/community
+
+- Possuir o Node instalado no computador, disponível em:
   https://nodejs.org/en/download/
 
 É recomendado adicionar as variáveis de ambiente npm e node no terminal.
 
 #### 1.1 Execução do back-end
 
-Para rodar o back-end, execute no terminal na pasta /api
+Para baixar as bibliotecas do back-end, execute no terminal na pasta /api
+
+> npm i
+
+Para rodar o projeto, execute em seguida
 
 > node index
 
